@@ -9,12 +9,13 @@ const bcrypt = require('bcrypt');
 const saltRounds = 5;
 
 const app = express();
+const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
 mongoose.set('strictQuery', true);
-mongoose.connect("mongodb://127.0.0.1:27017/userDB", {useNewUrlParser: true});
+mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true});
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -89,6 +90,6 @@ app.post("/login", function (req,res) {
   });
 });
 
-app.listen(3000, function () {
+app.listen(port, function () {
   console.log("Server started on port 3000");
 });
